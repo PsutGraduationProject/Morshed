@@ -1,10 +1,8 @@
-version: '3'
 services:
-  data-layer:
+  graphql:
+    image: data-layer-graphql:latest
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - '8000:8000'
-    volumes:
-        - .:/data-layer
+      - "8000:8000"
