@@ -1,7 +1,9 @@
 # **TMS - Task Management System**
 
 ## *To Run The Project Using Docker compose*
->`docker compose up`
+### *First, you must build the docker image*
+#### *to build and run in one Docker CLI*
+>`docker compose up --build` with logs
 or 
->`docker compose ud -d` in your terminal 
+>`docker compose ud -d --build` without logs 
 
