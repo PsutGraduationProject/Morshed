@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  pycharm-interpreter:
+    image: python-pycharm:latest
+    build:
+      dockerfile: Dockerfile
+  tms:
+    image: tms:latest
+    build:
+      dockerfile: task-management-service/Dockerfile
+    ports:
+      - "5001:5000"
+    volumes:
+      - ./task-management-service/:/home/task-management-service
+    command: "uvicorn main:app --host 0.0.0.0 --reload"
+  ums:
+    image: ums:latest
+    build:
+      dockerfile: users-management-service/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./users-management-service/:/home/users-management-service
+    command: "python manage.py runserver"
