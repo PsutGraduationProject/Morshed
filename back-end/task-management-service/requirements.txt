@@ -11,3 +11,4 @@ anyio>=3.7.1
 exceptiongroup>=1.1.2
 uvicorn[standard]
 typing-extensions>=4.7.1
+SQLAlchemy>=2.0.19
