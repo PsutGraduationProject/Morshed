@@ -76,7 +76,7 @@ DATABASES = {
         'NAME': 'umsdb',
         'USER': 'root',
         'PASSWORD': 'root_123',
-        'HOST': 'localhost',
+        'HOST': 'db_ums',
         'PORT': '3306',
     }
 }
