@@ -6,7 +6,7 @@ url = URL.create(
     drivername="mysql",
     username='root',
     password='root_123',
-    host='localhost',
+    host='db_tms',
     database='tmsdb',
     port=3307
 )

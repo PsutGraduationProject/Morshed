@@ -53,7 +53,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root_123
       MYSQL_DATABASE: umsdb
-      MYSQL_ROOT_HOST: localhost
+      MYSQL_ROOT_HOST: '%'
     networks:
       tms-network:
         aliases:
@@ -72,7 +72,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root_123
       MYSQL_DATABASE: tmsdb
-      MYSQL_ROOT_HOST: localhost
+      MYSQL_ROOT_HOST: '%'
     networks:
       tms-network:
         aliases:
