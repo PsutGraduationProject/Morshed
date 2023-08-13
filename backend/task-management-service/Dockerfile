@@ -6,9 +6,9 @@ WORKDIR /home/task-management-service
 
 RUN pip install --upgrade pip
 
-COPY task-management-service/requirements.txt requirements.txt
+COPY /backend/task-management-service/requirements.txt requirements.txt
 
 RUN pip install -r requirements.txt
 
-COPY ../task-management-service/* .
+COPY /backend/task-management-service/* .
 

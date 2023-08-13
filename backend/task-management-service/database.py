@@ -1,14 +1,15 @@
 from sqlalchemy import create_engine
 from sqlalchemy.engine import URL
 from sqlalchemy.orm import sessionmaker
+import os
 
 url = URL.create(
     drivername="mysql",
-    username='root',
-    password='root_123',
-    host='db_tms',
-    database='tmsdb',
-    port=3307
+    username=os.getenv("MYSQL_ROOT_USER"),
+    password=os.getenv("MYSQL_ROOT_PASSWORD"),
+    host=os.getenv("MYSQL_ROOT_HOST"),
+    database=os.getenv("MYSQL_DATABASE_NAME"),
+    port=os.getenv("MYSQL_PORT")
 )
 
 engine = create_engine(url)
