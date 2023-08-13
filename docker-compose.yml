@@ -1,0 +1,127 @@
+version: "3.9"
+
+services:
+
+  pycharm-interpreter: # container for interpreter IDE
+    image: python-pycharm:latest
+    build:
+      dockerfile: backend/Dockerfile
+
+  # database container for task management service
+  db_tms:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    container_name: db_tms
+    ports:
+      - "3307:3306"
+    expose:
+      - 3307
+    environment:
+      MYSQL_ROOT_USER: 'root'
+      MYSQL_ROOT_PASSWORD: 'root_123'
+      MYSQL_DATABASE_NAME: 'tmsdb'
+      MYSQL_PORT: '3307'
+    networks:
+      TMS-network:
+        aliases:
+          - db_tms
+
+  # task management service container
+  backend-tms:
+    image: tms:latest
+    build:
+      dockerfile: backend/task-management-service/Dockerfile
+    container_name: TMS-backend-tms
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend/task-management-service/:/home/task-management-service
+    command: "uvicorn main:app --host 0.0.0.0 --port 3000 --reload"
+    environment:
+      MYSQL_ROOT_USER: 'root'
+      MYSQL_ROOT_PASSWORD: 'root_123'
+      MYSQL_DATABASE_NAME: 'tmsdb'
+      MYSQL_ROOT_HOST: 'db_tms'
+      MYSQL_PORT: '3307'
+    depends_on:
+      db_tms:
+        condition: service_started
+    networks:
+      TMS-network:
+        aliases:
+          - tms-network
+
+  # users management service container
+  backend-ums:
+    image: ums:latest
+    build:
+      dockerfile: backend/users-management-service/Dockerfile
+    container_name: TMS-backend-ums
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/users-management-service/:/home/users-management-service
+    command: "python manage.py runserver  0.0.0.0:8000"
+    environment:
+      MYSQL_ROOT_USER: 'root'
+      MYSQL_ROOT_PASSWORD: 'root_123'
+      MYSQL_DATABASE_NAME: 'umsdb'
+      MYSQL_ROOT_HOST: 'db_ums'
+      MYSQL_PORT: '3306'
+    depends_on:
+      - db_ums
+    networks:
+      TMS-network:
+        aliases:
+          - ums-network
+
+  # database container for users management service
+  db_ums:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: db_ums
+    ports:
+      - "3306:3306"
+    expose:
+      - 3306
+    environment:
+      MYSQL_ROOT_USER: 'root'
+      MYSQL_ROOT_PASSWORD: 'root_123'
+      MYSQL_DATABASE_NAME: 'umsdb'
+      MYSQL_PORT: '3306'
+    networks:
+      TMS-network:
+        aliases:
+          - db_ums
+
+  # react app container
+  frontend:
+    image: frontend:latest
+    build:
+      dockerfile: frontend/Dockerfile
+    container_name: TMS-frontend
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./frontend/:/home/frontend
+    command: "npm start 0.0.0.0:9000"
+    depends_on:
+      backend-tms:
+        condition: service_started
+      backend-ums:
+        condition: service_started
+    networks:
+      TMS-network:
+        aliases:
+          - frontend-network
+
+networks:
+  TMS-network:
+    name: TMS-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.22.0.0/16
+
+

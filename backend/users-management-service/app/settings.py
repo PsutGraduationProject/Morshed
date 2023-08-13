@@ -10,13 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-tal5&n4prtijp2vu_k%comshl0!k&8d$t&(nn6jfd+9+g2@9jg'
@@ -24,7 +21,7 @@ SECRET_KEY = 'django-insecure-tal5&n4prtijp2vu_k%comshl0!k&8d$t&(nn6jfd+9+g2@9jg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -73,11 +70,11 @@ WSGI_APPLICATION = 'app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'umsdb',
-        'USER': 'root',
-        'PASSWORD': 'root_123',
-        'HOST': 'db_ums',
-        'PORT': '3306',
+        'NAME': os.environ.get("MYSQL_DATABASE_NAME"),
+        'USER': os.environ.get("MYSQL_ROOT_USER"),
+        'PASSWORD': os.environ.get("MYSQL_ROOT_PASSWORD"),
+        'HOST': os.environ.get("MYSQL_ROOT_HOST"),
+        'PORT': 3306,
     }
 }
 
