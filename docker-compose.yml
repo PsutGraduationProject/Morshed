@@ -17,15 +17,13 @@ services:
       - "3307:3306"
     expose:
       - 3307
-    environment:
-      MYSQL_ROOT_USER: 'root'
-      MYSQL_ROOT_PASSWORD: 'root_123'
-      MYSQL_DATABASE_NAME: 'tmsdb'
-      MYSQL_PORT: '3307'
+    volumes:
+      - mysql_data:/var/lib/mysql
     networks:
       TMS-network:
         aliases:
           - db_tms
+        ipv4_address: 172.22.0.2
 
   # task management service container
   backend-tms:
@@ -38,12 +36,6 @@ services:
     volumes:
       - ./backend/task-management-service/:/home/task-management-service
     command: "uvicorn main:app --host 0.0.0.0 --port 3000 --reload"
-    environment:
-      MYSQL_ROOT_USER: 'root'
-      MYSQL_ROOT_PASSWORD: 'root_123'
-      MYSQL_DATABASE_NAME: 'tmsdb'
-      MYSQL_ROOT_HOST: 'db_tms'
-      MYSQL_PORT: '3307'
     depends_on:
       db_tms:
         condition: service_started
@@ -51,6 +43,7 @@ services:
       TMS-network:
         aliases:
           - tms-network
+        ipv4_address:  172.22.0.4
 
   # users management service container
   backend-ums:
@@ -63,18 +56,13 @@ services:
     volumes:
       - ./backend/users-management-service/:/home/users-management-service
     command: "python manage.py runserver  0.0.0.0:8000"
-    environment:
-      MYSQL_ROOT_USER: 'root'
-      MYSQL_ROOT_PASSWORD: 'root_123'
-      MYSQL_DATABASE_NAME: 'umsdb'
-      MYSQL_ROOT_HOST: 'db_ums'
-      MYSQL_PORT: '3306'
     depends_on:
       - db_ums
     networks:
       TMS-network:
         aliases:
           - ums-network
+        ipv4_address: 172.22.0.5
 
   # database container for users management service
   db_ums:
@@ -89,11 +77,13 @@ services:
       MYSQL_ROOT_USER: 'root'
       MYSQL_ROOT_PASSWORD: 'root_123'
       MYSQL_DATABASE_NAME: 'umsdb'
+      MYSQL_ROOT_HOST: '172.22.0.5'
       MYSQL_PORT: '3306'
     networks:
       TMS-network:
         aliases:
           - db_ums
+        ipv4_address: 172.22.0.3
 
   # react app container
   frontend:
@@ -123,5 +113,10 @@ networks:
     ipam:
       config:
         - subnet: 172.22.0.0/16
+
+volumes:
+  mysql_data:
+
+
 
 
