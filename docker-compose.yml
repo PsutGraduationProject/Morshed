@@ -2,11 +2,6 @@ version: "3.9"
 
 services:
 
-  pycharm-interpreter: # container for interpreter IDE
-    image: python-pycharm:latest
-    build:
-      dockerfile: backend/Dockerfile
-
   # database container for task management service
   db_tms:
     image: mysql:8.0
@@ -18,51 +13,17 @@ services:
     expose:
       - 3307
     volumes:
-      - mysql_data:/var/lib/mysql
+      - tms_mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_USER: 'root'
+      MYSQL_ROOT_PASSWORD: 'root_123'
+      MYSQL_DATABASE_NAME: 'tmsdb'
+      MYSQL_ROOT_HOST: 'localhost'
+      MYSQL_PORT: '3306'
     networks:
       TMS-network:
         aliases:
           - db_tms
-        ipv4_address: 172.22.0.2
-
-  # task management service container
-  backend-tms:
-    image: tms:latest
-    build:
-      dockerfile: backend/task-management-service/Dockerfile
-    container_name: TMS-backend-tms
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./backend/task-management-service/:/home/task-management-service
-    command: "uvicorn main:app --host 0.0.0.0 --port 3000 --reload"
-    depends_on:
-      db_tms:
-        condition: service_started
-    networks:
-      TMS-network:
-        aliases:
-          - tms-network
-        ipv4_address:  172.22.0.4
-
-  # users management service container
-  backend-ums:
-    image: ums:latest
-    build:
-      dockerfile: backend/users-management-service/Dockerfile
-    container_name: TMS-backend-ums
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./backend/users-management-service/:/home/users-management-service
-    command: "python manage.py runserver  0.0.0.0:8000"
-    depends_on:
-      - db_ums
-    networks:
-      TMS-network:
-        aliases:
-          - ums-network
-        ipv4_address: 172.22.0.5
 
   # database container for users management service
   db_ums:
@@ -73,17 +34,55 @@ services:
       - "3306:3306"
     expose:
       - 3306
+    volumes:
+      - ums_mysql_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_USER: 'root'
       MYSQL_ROOT_PASSWORD: 'root_123'
+      MYSQL_PASSWORD: 'root_123'
       MYSQL_DATABASE_NAME: 'umsdb'
-      MYSQL_ROOT_HOST: '172.22.0.5'
       MYSQL_PORT: '3306'
     networks:
       TMS-network:
         aliases:
           - db_ums
-        ipv4_address: 172.22.0.3
+
+  # task management service container
+  backend-tms:
+    image: python-service:latest
+    build:
+      dockerfile: backend/python-services/Dockerfile
+    container_name: TMS-backend-tms
+    volumes:
+      - ./backend/python-services/task-management-service/:/app/backend/task-management-service
+    ports:
+      - "3000:3000"
+    command: "uvicorn main:app --host 0.0.0.0 --port 3000 --reload"
+    depends_on:
+      db_tms:
+        condition: service_started
+    networks:
+      TMS-network:
+        aliases:
+          - tms-network
+
+  # users management service container
+  backend-ums:
+    image: python-service:latest
+    build:
+      dockerfile: backend/python-services/Dockerfile
+    container_name: TMS-backend-ums
+    volumes:
+      - ./backend/python-services/users-management-service/:/app/backend/users-management-service
+    ports:
+      - "8000:8000"
+    command: "python ./users-management-service/manage.py runserver  0.0.0.0:8000"
+    depends_on:
+      - db_ums
+    networks:
+      TMS-network:
+        aliases:
+          - ums-network
 
   # react app container
   frontend:
@@ -91,10 +90,10 @@ services:
     build:
       dockerfile: frontend/Dockerfile
     container_name: TMS-frontend
+    volumes:
+      - ./frontend/app:/app
     ports:
       - "9000:9000"
-    volumes:
-      - ./frontend/:/home/frontend
     command: "npm start 0.0.0.0:9000"
     depends_on:
       backend-tms:
@@ -110,12 +109,12 @@ networks:
   TMS-network:
     name: TMS-network
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.22.0.0/16
 
 volumes:
-  mysql_data:
+  tms_mysql_data:
+  ums_mysql_data:
+
+
 
 
 
