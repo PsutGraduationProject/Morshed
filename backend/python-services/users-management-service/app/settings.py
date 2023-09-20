@@ -71,10 +71,15 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'umsdb',
-        'USER': 'root',
-        'PASSWORD': 'root_123',
+        'USER': 'user',
+        'PASSWORD': 'user123',
         'HOST': 'db_ums',
         'PORT': 3306,
+        'OPTIONS':
+            {
+                'auth_plugin': 'mysql_native_password'
+            }
+
     }
 }
 

@@ -37,11 +37,11 @@ services:
     volumes:
       - ums_mysql_data:/var/lib/mysql
     environment:
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_DATABASE: 'umsdb'
       MYSQL_ROOT_USER: 'root'
       MYSQL_ROOT_PASSWORD: 'root_123'
-      MYSQL_PASSWORD: 'root_123'
-      MYSQL_DATABASE_NAME: 'umsdb'
-      MYSQL_PORT: '3306'
+      MYSQL_PASSWORD: 'user123'
     networks:
       TMS-network:
         aliases:
@@ -57,7 +57,7 @@ services:
       - ./backend/python-services/task-management-service/:/app/backend/task-management-service
     ports:
       - "3000:3000"
-    command: "uvicorn main:app --host 0.0.0.0 --port 3000 --reload"
+    command: "uvicorn task-management-service.main:app --host 0.0.0.0 --port 3000 --reload"
     depends_on:
       db_tms:
         condition: service_started
@@ -78,7 +78,8 @@ services:
       - "8000:8000"
     command: "python ./users-management-service/manage.py runserver  0.0.0.0:8000"
     depends_on:
-      - db_ums
+      db_ums:
+        condition: service_started
     networks:
       TMS-network:
         aliases:
