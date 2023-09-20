@@ -2,14 +2,17 @@ FROM node:bullseye
 
 RUN apt update && apt install -y gettext
 
-WORKDIR /home/fontend
+WORKDIR /app
 
-COPY /frontend/app/package.json package.json
+COPY /frontend/app/package.json /app
 
-COPY /frontend/app/package-lock.json package-lock.json
+COPY /frontend/app/package-lock.json /app
 
-RUN npm install
+RUN npm install -g npm-check-updates \
+    ncu -u \
+    npm update \
+    npm install
 
-COPY /frontend/* .
+COPY /frontend/ /app
 
 
