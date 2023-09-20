@@ -84,6 +84,22 @@ services:
         aliases:
           - ums-network
 
+  # node js container
+  backend-nodejs:
+    image: node:latest
+    build:
+      dockerfile: backend/node-services/Dockerfile
+    container_name: TMS-backend-nodejs
+    volumes:
+      - ./backend/node-services/:/app/node-services
+    ports:
+      - "4000:4000"
+    command: "npm start 0.0.0.0:4000"
+    networks:
+      TMS-network:
+        aliases:
+          - backend-nodejs
+
   # react app container
   frontend:
     image: frontend:latest
