@@ -38,7 +38,7 @@ Before you begin, ensure you have met the following requirements:
    ```bash
    docker-compose up -d
    
-4. Access TMS in your web browser at http://localhost:300
+4. Access TMS in your web browser at http://localhost:9000
 
 ## Project Structure
 
