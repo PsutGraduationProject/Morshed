@@ -30,7 +30,7 @@ Before you begin, ensure you have met the following requirements:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/TMS.git
+   git clone https://github.com/Abdulhafeez012/TMS.git
 2. Navigate to the project directory:
    ```bash 
    cd TMS
