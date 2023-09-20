@@ -8,6 +8,7 @@ The Task Management System (TMS) is a microservices-based web application design
 - [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
+- [Branch Naming Convention](#branch-naming-convention)
 - [License](#license)
 
 ## Features
@@ -45,6 +46,17 @@ Before you begin, ensure you have met the following requirements:
 1. `frontend/`: React.js frontend code.
 2. `backend/`: Individual microservices (e.g., task service, user service).
 3. `docker-compose.yml`: Docker Compose configuration file.
+
+## Branch Naming Convention
+
+To maintain a structured and organized codebase, we follow specific branch naming conventions. When contributing to TMS, please adhere to the following guidelines:
+
+- `feature/XXX`
+- `bugfix/XXX`
+- `hotfix/XXX`
+- `release/XXX`
+- `maintenance/XXX`
+- `docs/XXX`
 
 ## License
 This project is licensed under the MIT License - see the **LICENSE** file for details
