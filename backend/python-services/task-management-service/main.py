@@ -8,4 +8,4 @@ app = FastAPI()
 
 @app.get('/')
 def hello():
-    return {'hello': "welcome"}
+    return {'hello': "from fastapi"}
