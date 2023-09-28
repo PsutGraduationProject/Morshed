@@ -1,4 +1,4 @@
-FROM python:3.10-buster
+FROM python:3.10-bullseye
 
 RUN apt-get update &&  apt install -y gettext && \
     pip install --upgrade pip poetry==1.6.1
