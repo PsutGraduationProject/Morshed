@@ -55,6 +55,7 @@ services:
     container_name: TMS-backend-tms
     volumes:
       - ./backend/python-services/task-management-service/:/app/backend/task-management-service
+      - ./backend/python-services/:/app/backend
     ports:
       - "3000:3000"
     command: "uvicorn task-management-service.main:app --host 0.0.0.0 --port 3000 --reload"
@@ -74,6 +75,7 @@ services:
     container_name: TMS-backend-ums
     volumes:
       - ./backend/python-services/users-management-service/:/app/backend/users-management-service
+      - ./backend/python-services/:/app/backend
     ports:
       - "8000:8000"
     command: "python ./users-management-service/manage.py runserver  0.0.0.0:8000"
