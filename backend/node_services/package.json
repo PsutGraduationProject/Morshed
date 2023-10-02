@@ -1,5 +1,5 @@
 {
-  "name": "node-services",
+  "name": "node_services",
   "version": "1.0.0",
   "description": "backend microservices using nodejs ",
   "main": "service_a/index.js",
