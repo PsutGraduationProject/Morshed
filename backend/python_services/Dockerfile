@@ -5,12 +5,12 @@ RUN apt-get update &&  apt install -y gettext && \
 
 WORKDIR /app/backend
 
-COPY /backend/python-services/pyproject.toml /app/backend/pyproject.toml
+COPY /backend/python_services/pyproject.toml /app/backend/pyproject.toml
 
-COPY /backend/python-services/poetry.lock /app/backend/poetry.lock
+COPY /backend/python_services/poetry.lock /app/backend/poetry.lock
 
 RUN poetry config virtualenvs.create false && poetry install
 
-COPY /backend/python-services /app/backend/
+COPY /backend/python_services /app/backend/
 
 

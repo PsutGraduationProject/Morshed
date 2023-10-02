@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "python-services"
+name = "python_services"
 version = "1.6.1"
 description = "poetry is a package management"
 authors = ["abdulhafeez <abd20160752@std.psut.edu.jo>"]

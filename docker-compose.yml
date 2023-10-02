@@ -51,14 +51,14 @@ services:
   backend-tms:
     image: python-service:latest
     build:
-      dockerfile: backend/python-services/Dockerfile
+      dockerfile: backend/python_services/Dockerfile
     container_name: TMS-backend-tms
     volumes:
-      - ./backend/python-services/task-management-service/:/app/backend/task-management-service
-      - ./backend/python-services/:/app/backend
+      - ./backend/python_services/task_management_service/:/app/backend/task_management_service
+      - ./backend/python_services/:/app/backend
     ports:
       - "3000:3000"
-    command: "uvicorn task-management-service.main:app --host 0.0.0.0 --port 3000 --reload"
+    command: "uvicorn task_management_service.main:app --host 0.0.0.0 --port 3000 --reload"
     depends_on:
       db_tms:
         condition: service_started
@@ -71,14 +71,14 @@ services:
   backend-ums:
     image: python-service:latest
     build:
-      dockerfile: backend/python-services/Dockerfile
+      dockerfile: backend/python_services/Dockerfile
     container_name: TMS-backend-ums
     volumes:
-      - ./backend/python-services/users-management-service/:/app/backend/users-management-service
-      - ./backend/python-services/:/app/backend
+      - ./backend/python_services/users_management_service/:/app/backend/users_management_service
+      - ./backend/python_services/:/app/backend
     ports:
       - "8000:8000"
-    command: "python ./users-management-service/manage.py runserver  0.0.0.0:8000"
+    command: "python ./users_management_service/manage.py runserver  0.0.0.0:8000"
     depends_on:
       db_ums:
         condition: service_started
@@ -91,10 +91,10 @@ services:
   backend-nodejs:
     image: node:latest
     build:
-      dockerfile: backend/node-services/Dockerfile
+      dockerfile: backend/node_services/Dockerfile
     container_name: TMS-backend-nodejs
     volumes:
-      - ./backend/node-services/:/app/node-services
+      - ./backend/node_services/:/app/node_services
     ports:
       - "4000:4000"
     command: "npm start 0.0.0.0:4000"

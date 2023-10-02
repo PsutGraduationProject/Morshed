@@ -2,9 +2,9 @@
   "name": "node-services",
   "version": "1.0.0",
   "description": "backend microservices using nodejs ",
-  "main": "service-a/index.js",
+  "main": "service_a/index.js",
   "scripts": {
-    "start": "node service-a/index.js"
+    "start": "node service_a/index.js"
   },
   "repository": {
     "type": "git",
