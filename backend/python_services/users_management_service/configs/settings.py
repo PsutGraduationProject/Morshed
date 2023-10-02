@@ -190,9 +190,12 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 GRAPHQL_JWT = {
-    'JWT_ALLOW_ARGUMENT': True,
-    'JWT_VERIFY_EXPIRATION': True,
-    'JWT_EXPIRATION_DELTA': timedelta(minutes=60),
+    "JWT_VERIFY_EXPIRATION": True,
+    # "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+    "JWT_ALLOW_ANY_CLASSES": [
+        "graphql_auth.relay.Register",
+        "graphql_auth.relay.VerifyAccount"
+    ]
 }
 
 # Email config
