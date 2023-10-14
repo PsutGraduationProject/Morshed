@@ -12,17 +12,13 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
-import environ
-
-# Initialise environment variables
-env = environ.Env()
-environ.Env.read_env()
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -90,10 +86,10 @@ WSGI_APPLICATION = 'configs.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': env('DATABASE_NAME'),
-        'USER': env('DATABASE_USER'),
-        'PASSWORD': env('DATABASE_PASSWORD'),
-        'HOST': env('DATABASE_HOST'),
+        'NAME': os.environ.get('DJANGO_DATABASE_NAME'),
+        'USER': os.environ.get('DJANGO_DATABASE_USER'),
+        'PASSWORD': os.environ.get('DJANGO_DATABASE_PASSWORD'),
+        'HOST': os.environ.get('db_ums'),
         'PORT': 3306,
         'OPTIONS':
             {
@@ -178,11 +174,12 @@ CORS_ALLOW_HEADERS = [
 
 # GraphQL config
 GRAPHENE = {
-    "SCHEMA": "ums.schema.schema",
+    "SCHEMA": "configs.schema.schema",
     'MIDDLEWARE': [
         'graphql_jwt.middleware.JSONWebTokenMiddleware',
     ],
 }
+
 # Allow JWT in backend authentication
 AUTHENTICATION_BACKENDS = [
     'graphql_auth.backends.GraphQLAuthBackend',
@@ -191,11 +188,16 @@ AUTHENTICATION_BACKENDS = [
 
 GRAPHQL_JWT = {
     "JWT_VERIFY_EXPIRATION": True,
-    # "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+    "JWT_LONG_RUNNING_REFRESH_TOKEN": False,
     "JWT_ALLOW_ANY_CLASSES": [
         "graphql_auth.relay.Register",
-        "graphql_auth.relay.VerifyAccount"
+        "graphql_auth.relay.VerifyAccount",
+        "graphql_auth.relay.ObtainJSONWebToken",
+        "graphql_auth.relay.ResendActivationEmail"
     ]
+}
+GRAPHQL_AUTH = {
+    'ALLOW_DELETE_ACCOUNT': True,
 }
 
 # Email config
