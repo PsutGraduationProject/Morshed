@@ -1,0 +1,30 @@
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: actions/setup-python@v2
+
+      - name: Set up Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install docker-ce docker-ce-cli containerd.io
+        env:
+          COMPOSE_VERSION: 2
+        with:
+          version: $COMPOSE_VERSION
+
+      - name: Set environment variables
+        env:
+          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          DJANGO_DATABASE_NAME: ${{ secrets.DJANGO_DATABASE_NAME }}
+          DJANGO_DATABASE_USER: ${{ secrets.DJANGO_DATABASE_USER }}
+          DJANGO_DATABASE_PASSWORD: ${{ secrets.DJANGO_DATABASE_PASSWORD }}
+
+      - name: Build and run Docker containers
+        run: |
+          docker-compose ../../docker-compose.yml up -d --build
+        
