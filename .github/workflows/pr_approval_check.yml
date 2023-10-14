@@ -1,0 +1,26 @@
+name: PR Approval Check
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+jobs:
+  pr_approval_check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check if PR has at least 2 approvals
+      id: pr_approvals
+      run: |
+        approvals=$(jq -r '.reviews[] | select(.state == "APPROVED") | .user.login' $GITHUB_EVENT_PATH | sort -u | wc -l)
+        echo "Approvals: $approvals"
+        if [ "$approvals" -lt 2 ]; then
+          echo "PR does not have at least 2 approvals. Closing PR."
+          curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X POST "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/pulls/$GITHUB_PR_NUMBER/update" -d '{"state":"closed"}'
+          curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -X POST "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/issues/$GITHUB_PR_NUMBER/comments" -d '{"body":"PR closed due to lack of approvals."}'
+        else
+          echo "PR has at least 2 approvals. Keeping PR open."
+        fi
+    - name: PR Approval Check Complete
+      run: |
+        echo "PR Approval Check Complete"
+        
