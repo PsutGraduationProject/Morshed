@@ -12,7 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -89,7 +92,7 @@ DATABASES = {
         'NAME': os.environ.get('DJANGO_DATABASE_NAME'),
         'USER': os.environ.get('DJANGO_DATABASE_USER'),
         'PASSWORD': os.environ.get('DJANGO_DATABASE_PASSWORD'),
-        'HOST': os.environ.get('db_ums'),
+        'HOST': 'db_ums',
         'PORT': 3306,
         'OPTIONS':
             {
