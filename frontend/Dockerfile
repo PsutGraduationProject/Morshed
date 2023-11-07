@@ -13,6 +13,6 @@ RUN npm install -g npm-check-updates \
     npm update \
     npm install
 
-COPY /frontend/ /app
+COPY /frontend /app
 
 
