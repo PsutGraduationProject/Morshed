@@ -1,4 +1,5 @@
 import graphene
+from graphql_jwt import ObtainJSONWebToken
 
 from django.utils.module_loading import import_string
 
@@ -19,6 +20,7 @@ class Output:
 
     success = graphene.Boolean(default_value=True)
     errors = graphene.Field(OutputErrorType)
+    token = ObtainJSONWebToken.Field()
 
 
 class MutationMixin:

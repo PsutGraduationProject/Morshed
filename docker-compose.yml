@@ -51,11 +51,11 @@ services:
   backend-tms:
     image: python-service:latest
     build:
-      dockerfile: backend/python_services/Dockerfile
-    container_name: TMS-backend-tms
+      dockerfile: backend/Dockerfile
+    container_name: Morshed-backend-tms
     volumes:
-      - ./backend/python_services/task_management_service/:/app/backend/task_management_service
-      - ./backend/python_services/:/app/backend
+      - ./backend/task_management_service/:/app/backend/task_management_service
+      - ./backend/:/app/backend
     ports:
       - "3000:3000"
     command: "uvicorn task_management_service.main:app --host 0.0.0.0 --port 3000 --reload"
@@ -71,11 +71,11 @@ services:
   backend-ums:
     image: python-service:latest
     build:
-      dockerfile: backend/python_services/Dockerfile
-    container_name: TMS-backend-ums
+      dockerfile: backend/Dockerfile
+    container_name: Morshed-backend-ums
     volumes:
-      - ./backend/python_services/users_management_service/:/app/backend/users_management_service
-      - ./backend/python_services/:/app/backend
+      - ./backend/users_management_service/:/app/backend/users_management_service
+      - ./backend/:/app/backend
     ports:
       - "8000:8000"
     command: "python ./users_management_service/manage.py runserver  0.0.0.0:8000"
@@ -87,28 +87,12 @@ services:
         aliases:
           - ums-network
 
-  # node js container
-  backend-nodejs:
-    image: node:latest
-    build:
-      dockerfile: backend/node_services/Dockerfile
-    container_name: TMS-backend-nodejs
-    volumes:
-      - ./backend/node_services/:/app/node_services
-    ports:
-      - "4000:4000"
-    command: "npm start 0.0.0.0:4000"
-    networks:
-      TMS-network:
-        aliases:
-          - backend-nodejs
-
   # react app container
   frontend:
     image: frontend:latest
     build:
       dockerfile: frontend/Dockerfile
-    container_name: TMS-frontend
+    container_name: Morshed-frontend
     volumes:
       - ./frontend/app:/app
     ports:
@@ -126,7 +110,7 @@ services:
 
 networks:
   TMS-network:
-    name: TMS-network
+    name: Morshed-network
     driver: bridge
 
 volumes:
