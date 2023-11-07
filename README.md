@@ -1,6 +1,10 @@
-# Task Management System (TMS)
+# Morshed
 
-The Task Management System (TMS) is a microservices-based web application designed to help students manage their tasks efficiently within a university setting. (TMS) is built with a combination of Python, Node.js, React.js, and MySQL, and it utilizes Docker and Docker Compose for easy deployment.
+Morshed is an academic management AI-driven system
+designed to help streamline course selection for students, make performance 
+predictions for each student, and provide academic support.
+It empowers students to make informed decisions and assists advisors in offering 
+personalized recommendations for students.
 
 ## Table of Contents
 
@@ -18,6 +22,7 @@ The Task Management System (TMS) is a microservices-based web application design
 - **React.js Frontend**: A modern and responsive web interface for users to manage their tasks.
 - **MySQL Database**: Stores task and user data securely.
 - **Docker and Docker Compose**: Easily deploy the entire project stack with just a few commands.
+- **AI Model**: Empowers students with course selection guidance, performance predictions, and academic support, while assisting advisors with personalized recommendations.
 
 ## Prerequisites
 
