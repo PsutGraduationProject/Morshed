@@ -1,6 +1,6 @@
 FROM node:20-bullseye-slim
 
-RUN apt update && apt install -y gettext
+RUN apt update
 
 WORKDIR /app
 

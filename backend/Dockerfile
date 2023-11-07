@@ -1,7 +1,8 @@
-FROM python:3.10-bullseye
+FROM python:3.11-bullseye
 
-RUN apt-get update &&  apt install -y gettext && \
-    pip install --upgrade pip poetry==1.6.1
+RUN apt-get update
+
+RUN pip install --upgrade pip && pip install poetry==1.6.1
 
 WORKDIR /app/backend
 
@@ -11,6 +12,6 @@ COPY /backend/poetry.lock /app/backend/poetry.lock
 
 RUN poetry config virtualenvs.create false && poetry install
 
-COPY /backend/python_services /app/backend/
+COPY /backend /app/backend/
 
 
