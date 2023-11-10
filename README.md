@@ -17,11 +17,11 @@ personalized recommendations for students.
 
 ## Features
 
-- **Microservices Architecture**: TMS is built using a microservices architecture to ensure scalability and modularity.
+- **Microservices Architecture**: TMS is built using a microservice architecture to ensure scalability and modularity.
 - **GraphQL API**: Utilizes GraphQL for efficient data retrieval and manipulation.
 - **React.js Frontend**: A modern and responsive web interface for users to manage their tasks.
 - **MySQL Database**: Stores task and user data securely.
-- **Docker and Docker Compose**: Easily deploy the entire project stack with just a few commands.
+- **Docker and Docker Compose**: Deploy the entire project stack with just a few commands.
 - **AI Model**: Empowers students with course selection guidance, performance predictions, and academic support, while assisting advisors with personalized recommendations.
 
 ## Prerequisites
