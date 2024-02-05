@@ -39,7 +39,7 @@ Before you begin, ensure you have met the following requirements:
    git clone https://github.com/Abdulhafeez012/TMS.git
 2. Navigate to the project directory:
    ```bash 
-   cd TMS
+   cd Morshed
 3. Build and start the project using Docker Compose:
    ```bash
    docker-compose up -d
