@@ -6,12 +6,9 @@ RUN pip install --upgrade pip && pip install poetry==1.6.1
 
 WORKDIR /app/backend
 
-COPY /backend/pyproject.toml /app/backend/pyproject.toml
-
-COPY /backend/poetry.lock /app/backend/poetry.lock
+COPY pyproject.toml poetry.lock /app/backend/
 
 RUN poetry config virtualenvs.create false && poetry install
 
-COPY /backend /app/backend/
-
+COPY . /app/backend
 

@@ -1,0 +1,76 @@
+version: "3.9"
+
+services:
+  # database container for backend
+  morshed_db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    container_name: morshed_db
+    ports:
+      - "3307:3306"
+    expose:
+      - 3307
+    volumes:
+      - morshed_db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_USER: MYSQL_ROOT_USER
+      MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_PORT: 3306
+    env_file:
+      - ../backend/users_management_service/.env
+#    healthcheck:
+#      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+#      timeout: 20s
+#      retries: 10
+
+  # task management service container
+  backend-tms:
+    image: python-service:3.11-bullseye
+    build:
+      context: ../backend/
+      dockerfile: Dockerfile
+    container_name: Morshed-backend-tms
+    volumes:
+      - ../backend/task_management_service/:/app/backend/task_management_service
+      - ../backend/:/app/backend
+    ports:
+      - "3000:3000"
+    command: "uvicorn task_management_service.main:app --host 0.0.0.0 --port 3000 --reload"
+    depends_on:
+      morshed_db:
+        condition: service_started
+    networks:
+      - morshed-network
+
+  # authentication service container
+  backend-ums:
+    image: python-service:3.11-bullseye
+    build:
+      context: ../backend/
+      dockerfile: Dockerfile
+    container_name: Morshed-backend-ums
+    volumes:
+      - ../backend/users_management_service/:/app/backend/users_management_service
+      - ../backend/:/app/backend
+    ports:
+      - "8000:8000"
+    command: ["gunicorn", "configs.wsgi:application",  "--bind", "0.0.0.0:8000 "]
+    environment:
+      PYTHONPATH: /app/backend/users_management_service
+    networks:
+      - morshed-network
+
+networks:
+  morshed-network:
+    driver: bridge
+
+volumes:
+  morshed_db_data:
+
+
+
+
+
+
