@@ -5,7 +5,7 @@
 node_modules
 backend/users_management_service/.env
 
-
+backend/users_management_service/__pycache__
 /.pnp
 .pnp.js
 
