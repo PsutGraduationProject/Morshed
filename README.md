@@ -17,7 +17,7 @@ personalized recommendations for students.
 
 ## Features
 
-- **Microservices Architecture**: TMS is built using a microservice architecture to ensure scalability and modularity.
+- **Microservices Architecture**: Each feature is implemented as a separate microservice.
 - **GraphQL API**: Utilizes GraphQL for efficient data retrieval and manipulation.
 - **React.js Frontend**: A modern and responsive web interface for users to manage their tasks.
 - **MySQL Database**: Stores task and user data securely.
@@ -36,13 +36,14 @@ Before you begin, ensure you have met the following requirements:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/Abdulhafeez012/TMS.git
+   git clone https://github.com/PsutGraduationProject/Morshed.git
 2. Navigate to the project directory:
    ```bash 
-   cd Morshed
-3. Build and start the project using Docker Compose:
+   cd Morshed/morshed_devops
+3. Build and start the project using Docker Compose files:
    ```bash
-   docker-compose up -d
+   docker-compose -f docker-compose-front-end.yml up -d --build
+   docker-compose -f docker-compose-backend.yml up -d --build
    
 4. Access TMS in your web browser at http://localhost:9000
 
@@ -50,7 +51,7 @@ Before you begin, ensure you have met the following requirements:
 
 1. `frontend/`: React.js frontend code.
 2. `backend/`: Individual microservices (e.g., task service, user service).
-3. `docker-compose.yml`: Docker Compose configuration file.
+3. `morshed_devops/`: Docker Composes files for deploying the entire project stack.
 
 ## Branch Naming Convention
 
