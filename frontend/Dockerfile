@@ -1,18 +1,16 @@
 FROM node:20-bullseye-slim
 
-RUN apt update
-
 WORKDIR /app
 
-COPY /frontend/app/package.json /app
+COPY ./app/package*.json /app
 
-COPY /frontend/app/package-lock.json /app
+RUN apt update && apt upgrade -y
 
-RUN npm install -g npm-check-updates \
-    ncu -u \
-    npm update \
-    npm install
+RUN npm install -g npm-check-updates
 
-COPY /frontend /app
+RUN ncu -u
 
+RUN apt clean && rm -rf /var/lib/apt/lists/*
+
+COPY ./app /app
 

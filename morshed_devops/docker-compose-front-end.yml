@@ -6,15 +6,19 @@ services:
   frontend:
     image: frontend:latest
     build:
-      dockerfile: ../frontend/Dockerfile
+      context: ../frontend/
+      dockerfile: Dockerfile
     container_name: Morshed-frontend
     volumes:
-      - ./frontend/app:/app
+      - ../frontend/app:/app
     ports:
       - "9000:9000"
     command: "npm start 0.0.0.0:9000"
     networks:
-      TMS-network:
-        aliases:
-          - frontend-network
+      - morshed-network
+
+
+networks:
+  morshed-network:
+    driver: bridge
 
