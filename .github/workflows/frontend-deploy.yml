@@ -61,6 +61,7 @@ jobs:
         key: ${{ secrets.INSTANCE_SSH_KEY }}
         script: |
           cd /app
-          docker-compose -f docker-compose-front-end.yml down
-          docker-compose -f docker-compose-front-end.yml pull
-          docker-compose -f docker-compose-front-end.yml up -d
+          ls -la
+#          docker-compose -f docker-compose-front-end.yml down
+#          docker-compose -f docker-compose-front-end.yml pull
+#          docker-compose -f docker-compose-front-end.yml up -d
