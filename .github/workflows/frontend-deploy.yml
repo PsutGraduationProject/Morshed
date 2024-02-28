@@ -40,8 +40,8 @@ jobs:
         host: ${{ secrets.INSTANCE_IP }}
         username: ${{ secrets.INSTANCE_USERNAME }}
         key: ${{ secrets.INSTANCE_SSH_KEY }}
-        source: "./morshed_devops/docker-compose-front-end.yml"
-        target: "/app/docker-compose-front-end.yml"
+        source: "../../docker-compose-front-end.yml"
+        target: "/app/"
 
     - name: SSH into instance and install Docker Compose
       uses: appleboy/ssh-action@master
