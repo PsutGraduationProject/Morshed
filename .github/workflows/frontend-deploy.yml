@@ -41,7 +41,7 @@ jobs:
         username: ${{ secrets.INSTANCE_USERNAME }}
         key: ${{ secrets.INSTANCE_SSH_KEY }}
         source: "morshed_devops/docker-compose-front-end.yml"
-        target: "/app/"
+        target: "/app/frontend"
         strip_components: 1
 
     - name: SSH into instance and install Docker Compose
