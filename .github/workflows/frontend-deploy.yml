@@ -15,7 +15,7 @@ jobs:
 
     - name: Build Docker images
       run: |
-        pwd
+        pwd && ls -la
 #        docker-compose -f ../../morshed_devops/docker-compose-front-end.yml build
 
     - name: Log in to Google Cloud
