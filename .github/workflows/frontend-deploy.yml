@@ -20,7 +20,7 @@ jobs:
     - name: Log in to Google Cloud
       uses: google-github-actions/auth@v2
       with:
-        service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+        service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT }}
         project_id: ${{ secrets.GCP_PROJECT_ID }}
 
     - name: Copy Docker Compose file to instance
