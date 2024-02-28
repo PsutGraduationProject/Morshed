@@ -23,16 +23,23 @@ jobs:
         credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT }}
         project_id: ${{ secrets.GCP_PROJECT_ID }}
 
+    - name: SSH into instance and change permissions
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.INSTANCE_IP }}
+        username: ${{ secrets.INSTANCE_USERNAME }}
+        key: ${{ secrets.INSTANCE_SSH_KEY }}
+        script: |
+          sudo mkdir -p /app
+          sudo chown -R $USER:$USER /app
+          sudo chmod -R 755 /app
+
     - name: Copy Docker Compose file to instance
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.INSTANCE_IP }}
         username: ${{ secrets.INSTANCE_USERNAME }}
         key: ${{ secrets.INSTANCE_SSH_KEY }}
-        entryPoint: |
-          sudo mkdir -p /app
-          sudo chown -R $USER:$USER /app
-          sudo chmod -R 755 /app
         source: "./morshed_devops/docker-compose-front-end.yml"
         target: "/app/"
 
