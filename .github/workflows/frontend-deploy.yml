@@ -61,7 +61,7 @@ jobs:
         username: ${{ secrets.INSTANCE_USERNAME }}
         key: ${{ secrets.INSTANCE_SSH_KEY }}
         script: |
-          cd /app
+          cd /app/frontend
           docker-compose -f docker-compose-front-end.yml down
           docker-compose -f docker-compose-front-end.yml pull
           docker-compose -f docker-compose-front-end.yml up -d
