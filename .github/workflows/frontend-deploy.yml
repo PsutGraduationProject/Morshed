@@ -31,7 +31,7 @@ jobs:
         key: ${{ secrets.INSTANCE_SSH_KEY }}
         debug: true
         source: "./morshed_devops/docker-compose-front-end.yml"
-        target: "/app/docker-compose-front-end.yml"
+        target: "/app/"
 
     - name: SSH into instance and deploy
       uses: appleboy/ssh-action@master
