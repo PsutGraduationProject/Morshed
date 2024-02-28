@@ -43,6 +43,16 @@ jobs:
         source: "./morshed_devops/docker-compose-front-end.yml"
         target: "/app/"
 
+    - name: SSH into instance and install Docker Compose
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.INSTANCE_IP }}
+        username: ${{ secrets.INSTANCE_USERNAME }}
+        key: ${{ secrets.INSTANCE_SSH_KEY }}
+        script: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+
     - name: SSH into instance and deploy
       uses: appleboy/ssh-action@master
       with:
