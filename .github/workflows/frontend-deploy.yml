@@ -42,6 +42,7 @@ jobs:
         key: ${{ secrets.INSTANCE_SSH_KEY }}
         source: "morshed_devops/docker-compose-front-end.yml"
         target: "/app/"
+        strip_components: 1
 
     - name: SSH into instance and install Docker Compose
       uses: appleboy/ssh-action@master
