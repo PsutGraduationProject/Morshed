@@ -1,4 +1,4 @@
-name: Deploy to GCP
+name: Deploy Frontend to GCP VM Instance
 
 on:
   push:
