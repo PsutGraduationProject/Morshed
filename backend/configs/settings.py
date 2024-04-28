@@ -10,29 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from datetime import timedelta
-from pathlib import Path
-from dotenv import load_dotenv, dotenv_values
+from apps.my_apps import MY_APPS
+from dotenv import load_dotenv
+import datetime
 import os
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Construct the absolute path of the .env file
-env_path = Path(BASE_DIR) / '.env'
-
-with open(env_path) as f:
-    for line in f:
-        key, value = line.strip().split(':', 1)
-        os.environ[key] = value
-# SECURITY WARNING: keep the secret key used in production secret!
-
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'r1dnd0l6-t%fso#15$0tu9lcreaudlq0ltu_822_!%tw!$5o-r')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False')
 
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 # Application definition
 
@@ -51,12 +43,8 @@ INSTALLED_APPS = [
     'django_filters',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
     'graphql_auth',
-
-    # MY APPS
-    'ums',
 ]
-
-AUTH_USER_MODEL = 'ums.User'
+INSTALLED_APPS += MY_APPS
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -95,16 +83,11 @@ WSGI_APPLICATION = 'configs.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DJANGO_DATABASE_NAME'),
-        'USER': os.environ.get('DJANGO_DATABASE_USER'),
-        'PASSWORD': os.environ.get('DJANGO_DATABASE_PASSWORD'),
-        'HOST': 'db_ums',
-        'PORT': 3306,
-        'OPTIONS':
-            {
-                'auth_plugin': 'mysql_native_password'
-            }
-
+        'NAME': os.environ.get('MYSQL_DATABASE', 'morshed_db'),
+        'USER': os.environ.get('MYSQL_ROOT_USER', 'root'),
+        'PASSWORD': os.environ.get('MYSQL_ROOT_PASSWORD', 'root123'),
+        'HOST': os.environ.get('MYSQL_HOST', 'localhost'),
+        'PORT': 3307,
     }
 }
 
@@ -160,14 +143,14 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:9000'
 ]
 
-CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
-]
+# CORS_ALLOW_METHODS = [
+#     'DELETE',
+#     'GET',
+#     'OPTIONS',
+#     'PATCH',
+#     'POST',
+#     'PUT',
+# ]
 
 CORS_ALLOW_HEADERS = [
     "accept",
@@ -184,27 +167,24 @@ CORS_ALLOW_HEADERS = [
 # GraphQL config
 GRAPHENE = {
     "SCHEMA": "configs.schema.schema",
+    'AUTHENTICATION_BACKENDS': [
+        'apps.user_auth.authentication.MorshedStudentIdAuthenticationBackend',
+        'django.contrib.auth.backends.ModelBackend',
+    ],
     'MIDDLEWARE': [
         'graphql_jwt.middleware.JSONWebTokenMiddleware',
     ],
 }
 
-# Allow JWT in backend authentication
-AUTHENTICATION_BACKENDS = [
-    'graphql_auth.backends.GraphQLAuthBackend',
-    'django.contrib.auth.backends.ModelBackend',
-]
 
+# JWT settings
 GRAPHQL_JWT = {
-    "JWT_VERIFY_EXPIRATION": True,
-    "JWT_LONG_RUNNING_REFRESH_TOKEN": False,
-    "JWT_ALLOW_ANY_CLASSES": [
-        "graphql_auth.relay.Register",
-        "graphql_auth.relay.VerifyAccount",
-        "graphql_auth.relay.ObtainJSONWebToken",
-        "graphql_auth.relay.ResendActivationEmail"
-    ]
+    'JWT_VERIFY_EXPIRATION': True,  # Enable expiration verification
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=30),  # Token expires in 30 minutes
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),  # Refresh token is valid for 7 days
+    'JWT_LONG_RUNNING_REFRESH_TOKEN': True,  # Enable the use of long-running refresh tokens
 }
+
 GRAPHQL_AUTH = {
     'ALLOW_DELETE_ACCOUNT': True,
 }

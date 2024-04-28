@@ -3,7 +3,7 @@
 
 # dependencies
 node_modules
-backend/users_management_service/.env
+backend/.env
 
 backend/users_management_service/__pycache__
 /.pnp

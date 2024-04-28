@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class UmsConfig(AppConfig):
+class CourseRecommendationConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'ums'
+    name = 'apps.course_recommendation'
