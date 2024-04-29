@@ -1,0 +1,21 @@
+/** {*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*}*/
+
+#root{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to right, #457CAB 0%, #457CAB 50%, #0C4274 50%, #0C4274 100%);
+}
+
+/*.container {*/
+/*    width: 80%; !* Adjust as needed *!*/
+/*    height: 80%; !* Adjust as needed *!*/
+/*    background-color: #ECECEC;*/
+/*    padding: 50px; !* Adjust padding as needed *!*/
+/*    border-radius: 10px; !* Add border radius for rounded corners *!*/
+/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); !* Add box shadow for depth *!*/
+/*}*/
