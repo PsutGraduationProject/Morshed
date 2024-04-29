@@ -179,10 +179,9 @@ GRAPHENE = {
 
 # JWT settings
 GRAPHQL_JWT = {
-    'JWT_VERIFY_EXPIRATION': True,  # Enable expiration verification
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=30),  # Token expires in 30 minutes
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),  # Refresh token is valid for 7 days
-    'JWT_LONG_RUNNING_REFRESH_TOKEN': True,  # Enable the use of long-running refresh tokens
+    'JWT_VERIFY_EXPIRATION': False,  # Disable expiration verification
+    # 'JWT_EXPIRATION_DELTA': timedelta(days=1),
+    # 'JWT_AUTH_HEADER_PREFIX': 'JWT',
 }
 
 GRAPHQL_AUTH = {

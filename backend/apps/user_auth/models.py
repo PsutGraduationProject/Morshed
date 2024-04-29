@@ -31,26 +31,21 @@ class MorshedStudent(BaseModel):
         null=True,
         blank=True
     )
+    student_gpa = models.FloatField(
+        null=True,
+        blank=True
+    )
+    student_major = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True
+    )
     student_phone_number = models.CharField(
         max_length=20,
         null=True,
         blank=True
     )
-    student_name = models.CharField(
-        max_length=100,
-        null=True,
-        blank=True
-    )
-    student_email = models.EmailField(
-        max_length=100,
-        null=True,
-        blank=True
-    )
     student_address = models.TextField(
-        null=True,
-        blank=True
-    )
-    student_age = models.IntegerField(
         null=True,
         blank=True
     )
@@ -61,4 +56,4 @@ class MorshedStudent(BaseModel):
         return self.student_id
 
     def __str__(self):
-        return f"{self.student_id} / {self.student_name}"
+        return f"{self.student_id} / {self.morshed_user.first_name} {self.morshed_user.last_name}"

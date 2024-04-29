@@ -1,6 +1,7 @@
 import graphene
 import graphql_jwt
 from graphql_jwt import shortcuts
+from django.contrib.auth.hashers import check_password
 from apps.user_auth.authentication import MorshedStudentIdAuthenticationBackend
 from graphene_django import DjangoObjectType
 from graphql_auth import mutations
@@ -20,11 +21,7 @@ class MorshedStudentType(DjangoObjectType):
 class OTPType(DjangoObjectType):
     class Meta:
         model = OTP
-        fields = (
-            'id'
-            'otp_code',
-            'created_at',
-        )
+        fields = "__all__"
 
 
 class ObtainJSONWebToken(graphene.Mutation):
@@ -56,7 +53,7 @@ class GenerateOTP(graphene.Mutation):
         otp = '{:06d}'.format(random.randint(0, 999999))
         OTP.objects.create(
             user=morshed_student.morshed_user,
-            otp=otp
+            otp_code=otp
         )
         return GenerateOTP(
             success=True,
@@ -100,16 +97,25 @@ class AuthMutation(graphene.ObjectType):
 class Query(graphene.ObjectType):
     morshed_student = graphene.Field(
         MorshedStudentType,
-        student_id=graphene.Int(required=True)
+        student_id=graphene.Int(required=True),
+        password=graphene.String(required=True)
     )
     auth_process = graphene.Field(
         OTPType,
         student_id=graphene.Int(required=True)
     )
 
-    def resolve_morshed_student(self, info, student_id):
-        return MorshedStudent.objects.get(student_id=student_id)
-
-    def resolve_otp(self, info, student_id):
+    def resolve_morshed_student(self, info, student_id, password):
         morshed_student = MorshedStudent.objects.get(student_id=student_id)
-        return OTP.objects.filter(user_id=morshed_student.morshed_user).latest('created_at')
+
+        # Check if the provided password matches the user's password
+        if not check_password(password, morshed_student.morshed_user.password):
+            raise Exception('Invalid password')
+
+        return morshed_student
+
+    def resolve_auth_process(self, info, student_id):
+        if not info.context.user.is_authenticated:
+            raise Exception('Authentication required.')
+        morshed_student = MorshedStudent.objects.get(student_id=student_id)
+        return OTP.objects.filter(user_id=morshed_student.morshed_user.id).latest('created_at')
